@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <title>Deviceorientation Demo</title>
+    <style>
+      html,
+      body {
+        width: 100vw;
+        height: 100vh;
+        background-color: darkgrey;
+        background-image: url(https://9to5mac.com/wp-content/uploads/sites/6/2020/10/The-Lake-5-dragged.jpg?quality=82);
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.5s ease-out;
+      }
+
+      #title {
+        --gamma: 0;
+        --beta: 0;
+        --shadow-x: calc(-1px * var(--gamma)/180*45);
+        --shadow-y: calc(1px * var(--beta)/180*15);
+	      --rotate-y: calc(1deg * var(--beta)/180*30);;
+        --translate-x: calc(-1px * var(--gamma)/180*30);
+        color: white;
+        font-weight: bolder;
+        font-size: 48px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        text-shadow: var(--shadow-x) var(--shadow-y) 8px black;
+	      transform: rotateY(var(--rotate-y)) translateX(var(--translate-x));
+      }
+    </style>
+  </head>
+  <body>
+    <div id="title">CodingStartup!</div>
+    <script>
+      const title = document.getElementById("title");
+      title.addEventListener("click", function () {
+        if (typeof DeviceOrientationEvent.requestPermission === "function") {
+          DeviceOrientationEvent.requestPermission().then((permissionState) => {
+            if (permissionState === "granted") {
+              window.addEventListener("deviceorientation", (event) => {
+                const { gamma, alpha, beta } = event;
+                title.style.setProperty("--gamma", gamma);
+                title.style.setProperty("--beta", beta);
+              });
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
